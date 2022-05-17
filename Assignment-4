@@ -1,0 +1,115 @@
+-- 
+-- Roll No: <20>
+-- Name: <jeniya>
+-- Program: <Assignment 4>
+-- 
+
+
+--
+-- Table structure for table <customer>
+--
+create table customer(license_no varchar(15) primary key,name varchar(30) not null,address varchar(30) not null,age int not null,phone int not null);
+--
+-- Table structure for table <vehicle>
+--
+create table vehicle(reg_no varchar(10) primary key,make varchar(10) not null,model varchar(15) not null,yom date not null,cc varchar(5) not null,sc int not null);
+--
+-- Table structure for table <owns>
+--
+create table owns(license_no varchar(15),reg_no varchar(10),foreign key(license_no) references customer(license_no),foreign key(reg_no)references vehicle(reg_no));
+--
+-- Table structure for table <policy>
+--
+create table policy(policy_no varchar(10) primary key,licence_no varchar(15),reg_no varchar(10),issue_date date,value int,policy_amt int,mode varchar(10),foreign key(licence_no) references customer(licence_no),foreign key(reg_no) references vehicle(reg_no));
+--
+-- Table structure for table <accident>
+--
+create table accident(claim_no varchar(10)  primary key,location varchar(15),doa date);
+--
+-- Table structure for table <participated>
+--
+create table participated(license_no varchar(15),reg_no varchar(10),claim_no varchar(10),amt int,foreign key(license_no) references customer(license_no),foreign key(reg_no) references vehicle(reg_no),foreign key(claim_no) references accident(claim_no));
+
+-- ---------create/alter statement commands----------- # This line may be removed in the actual file
+
+--
+-- Dumping data for table <customer>
+--
+
+insert into customer values('ABC101','Abel','Thrissur',25,673452);
+insert into customer values('ABC102','john','Mallapuram',26,673453);
+insert into customer values('ABC103','james','palakkad',27,673454);
+insert into customer values('ABC104','jenny','kollam',27,673455);
+insert into customer values('ABC105','Alice','cochin',28,673451);
+
+--
+-- Dumping data for table <vehicle>
+--
+
+insert into vehicle values('KL55J445','maruti','Alto','2012-02-12','900',4);
+insert into vehicle values('KL55J446','maruti','etriga','2015-02-13','800',5);
+insert into vehicle values('KL53J447','bmw','s6','2014-03-17','1700',6);
+insert into vehicle values('KL565J448','minicooper','clubman','2016-03-13','1700',4);
+insert into vehicle values('KL565J443','toyota','innova','2018-03-20','2500',7);
+
+--
+-- Dumping data for table <owns>
+--
+insert into owns values('ABC101','KL55J445');
+insert into owns values('ABC102','KL55J446');
+insert into owns values('ABC103','KL53J447');
+insert into owns values('ABC104','KL565J448');
+insert into owns values('ABC105','KL565J443');
+
+--
+-- Dumping data for table <policy>
+--
+insert into policy values('A11','ABC101','KL55J445','2016-02-01',15000,10000,'cheque');
+insert into policy values('A12','ABC102','KL55J446','2013-04-08',13000,8000,'cash');
+insert into policy values('A13','ABC103','KL53J447','2014-05-09',14000,90000,'cheque');
+insert into policy values('A14','ABC104','KL565J448','2018-05-10',10000,70000,'cash');
+insert into policy values('A15','ABC105','KL565J443','2015-05-12',55000,45000,'cheque');
+
+--
+-- Dumping data for table <accident>
+--
+
+insert into accident values('01','vadakkanchery','2016-03-02');
+insert into accident values('02','kuttipuram','2013-04-25');
+insert into accident values('03','vadakara','2014-10-05');
+insert into accident values('04','kozhikode','2018-11-27'
+insert into accident values('05','kolappuram','2015-12-17');
+
+--
+-- Dumping data for table <participated>
+--
+
+insert into participated values('ABC101','KL55J445','01',10000);
+insert into participated values('ABC102','KL55J446','02',20000);
+insert into participated values('ABC103','KL53J447','03',50000);
+insert into participated values('ABC104','KL565J448','04',59000);
+insert into participated values('ABC105','KL565J443','05',45000);
+
+
+
+
+--
+-- SQl Query Statements
+--
+
+select customer.name,policy.policy_no from customer,policy where policy.license_no=customer.license_no and policy.issue_date>'2014-01-01';
+
+select  c.name,p.reg_no,p.license_no from customer as c,policy as p where p.license_no=c.license_no and mode='cheque';
+
+select name,license_no from customer natural join (vehicle natural join policy)where make='maruti';
+
+select name from customer natural join(accident natural join(participated natural join policy))where datediff(doa,issue_date)<365;
+
+select name,count(license_no)from participated natural join customer group by license_no having name='john';
+
+
+
++-------+
+
+-- -----SQL query statments preceeded by the its question-------- # This line may be removed in the actual file
+-- -----Question number should be commented---------------#This line may be removed in the actual file
