@@ -36,7 +36,14 @@ db.order.insert({order_no:"O5",year:2020,paid:"Y",cost:{price:19,currency:"INR"}
 -- -----SQL query statments preceeded by the its question-------- # This line may be removed in the actual file
 -- -----Question number should be commented---------------#This line may be removed in the actual file
 
-db.order.find({paid:"Y"}).pretty()
+  db.order.find({paid:"Y"}).pretty()
+  db.order.find({paid:'Y',year:{ $lt:2019}})
+  db.order.find({paid:'N',year:{ $lt:2019}})
+  db.order.find({"cost.currency":{ $eq:"INR"}})
+  db.order.find({"cost.price":{ $lt:18}})
+  db.order.find({"items.pno":{ $eq:"P2"}})
+  db.order.find({"items.quantity":{ $lt:13}})
+  
 
 
 
